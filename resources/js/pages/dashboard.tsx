@@ -1,4 +1,5 @@
 /* eslint-disable import/order */
+import { Button } from '@/components/ui/button';
 import DropdownMenuAlternative from '@/components/ui/dropdownmenu-alternative';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
@@ -6,6 +7,7 @@ import { dashboard } from '@/routes';
 import type { BreadcrumbItem, SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { Label } from '@radix-ui/react-label';
+import { UserPlus } from 'lucide-react';
 import { useState } from 'react';
 
 interface User {
@@ -46,26 +48,20 @@ export default function Dashboard({ users }: DashboardProps) {
                                 {auth.user?.role}
                             </p>
                         </div>
-                        <div className="flex-1 rounded-r-lg border bg-white p-4 dark:bg-slate-900">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Total de Usuários
-                            </p>
-                            <p className="text-3xl font-bold">{users.length}</p>
-                        </div>
                     </div>
                 </div>
 
                 <div className="overflow-auto rounded-lg bg-white dark:bg-slate-900">
                     <h1 className="mb-4 text-2xl font-bold">Usuários</h1>
 
-                    <div>
-                        <div className="my-4 px-4">
-                            <Label htmlFor="name">Realizar busca</Label>
+                    <div className="mb-4 inline-flex w-full rounded border px-4">
+                        <div className="my-4 flex flex-2/6 flex-col">
+                            <Label htmlFor="name" className="text-sm text-gray-600 dark:text-gray-400">Buscar nome</Label>
                             <Input
                                 id="name"
                                 name="name"
                                 type="text"
-                                className="mt-2 rounded-md border p-4 font-light text-black"
+                                className="mt-2 rounded-sm border-2 py-4 font-light text-black"
                                 onChange={(e) =>
                                     setUsersFiltered(
                                         users.filter((user) =>
@@ -79,8 +75,17 @@ export default function Dashboard({ users }: DashboardProps) {
                                 }
                             ></Input>
                         </div>
-                        <div>
-                            
+                        <div className="flex-2/6 rounded-r-lg bg-white p-4 dark:bg-slate-900 flex justify-center flex-col items-center">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                                Usuários encontrados
+                            </p>
+                            <p className="text-lg font-bold">{usersFiltered.length}</p>
+                        </div>
+                        <div className="flex flex-2/6 items-center justify-end">
+                            <Button className="bg-green-600 hover:bg-green-700 transition-colors">
+                                <UserPlus></UserPlus>
+                                Cadastrar novo
+                            </Button>
                         </div>
                     </div>
 
