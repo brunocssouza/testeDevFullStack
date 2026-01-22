@@ -1,3 +1,4 @@
+import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -6,10 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
@@ -19,13 +18,12 @@ type Props = {
 
 export default function Login({
     status,
-    canResetPassword,
-    canRegister,
+    canResetPassword
 }: Props) {
     return (
         <AuthLayout
-            title="Log in to your account"
-            description="Enter your email and password below to log in"
+            title="FAÇA O SEU LOGIN"
+            description="Enter your cpf and password below to log in"
         >
             <Head title="Log in" />
 
@@ -38,23 +36,20 @@ export default function Login({
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
                                 <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
+                                    id="cpf"
+                                    type="text"
+                                    name="cpf"
                                     required
                                     autoFocus
                                     tabIndex={1}
-                                    autoComplete="email"
-                                    placeholder="email@example.com"
+                                    placeholder="CPF"
                                 />
-                                <InputError message={errors.email} />
+                                <InputError message={errors.cpf} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
@@ -72,7 +67,7 @@ export default function Login({
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder="Senha"
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -83,29 +78,22 @@ export default function Login({
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Label htmlFor="remember">Lembrar-me</Label>
                             </div>
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full"
+                                className="mt-4 py-6 bg-linear-to-r from-neutral-700 from-0% via-neutral-800 via-25% to-neutral-900 to-100% rounded-4xl tracking-widest text-lg"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Acesse agora
                             </Button>
                         </div>
 
-                        {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
-                                </TextLink>
-                            </div>
-                        )}
+                        <a href="#" className="hover:underline text-white text-center mb-4">Esqueci meu login ou senha</a>
                     </>
                 )}
             </Form>
