@@ -33,12 +33,17 @@ Sistema de gerenciamento de usuários desenvolvido com Laravel e React, utilizan
    cd testeDevFullStack
    ```
 
-2. Instale as dependências, realize migrations e semeação e inicialize o servidor:
+2. Instale as dependências, realize migrations e semeação:
     ```bash
-    composer install && php -r "file_exists('.env') || copy('.env.example', '.env');" && php artisan key:generate && npm install && npm run build && php artisan migrate --force && php artisan db:seed --class=UserSeeder --force && composer run dev
+    composer install && php -r "file_exists('.env') || copy('.env.example', '.env');" && php artisan key:generate && npm install && npm run build && php artisan migrate --force && php artisan db:seed --class=UserSeeder --force
     ```
 
-3. Acesse a aplicação em `http://localhost:8000`
+3. Inialize o servidor:
+    ```bash
+    composer run dev
+    ```
+
+4. Acesse a aplicação em `http://localhost:8000`
 
 ## Tecnologias Utilizadas
 
