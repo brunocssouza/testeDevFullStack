@@ -26,35 +26,19 @@ Sistema de gerenciamento de usuários desenvolvido com Laravel e React, utilizan
 
 ### Instalação Local
 
-1. Clone o repositório ou navegue até o diretório do projeto
+1. Clone o repositório e navegue até o diretório do projeto:
 
-2. Instale as dependências do PHP:
    ```bash
-   composer install
+   git clone https://github.com/brunocssouza/testeDevFullStack.git
    ```
 
-3. Instale as dependências do Node.js:
-   ```bash
-   npm install
-   ```
+2. Instale as dependências e preparações:
 
-4. Execute as migrações:
-   ```bash
-   php artisan migrate
-   ```
+    ```bash
+    composer install && npm install && npm run build && php artisan db:seed --class=UserSeeder && composer run dev
+    ```
 
-   5. Semeie a tabela Users:
-   ```bash
-   php artisan db:seed --class=UserSeeder
-   ```
-
-6. Compile os assets do frontend e executar os servidores:
-   ```bash
-   composer run dev
-   ```
-   
-
-8. Acesse a aplicação em `http://localhost:8000`
+3. Acesse a aplicação em `http://localhost:8000`
 
 ## Tecnologias Utilizadas
 
@@ -91,10 +75,10 @@ O projeto segue o padrão de arquitetura MVC (Model-View-Controller), separando 
 Os Models representam os dados e a lógica de negócio da aplicação. Eles ficam localizados em `app/Models/`:
 
 - **User.php**: Model que representa a entidade Usuário. Contém:
-  - Atributos fillable: name, email, password, role, cpf
-  - Casts automáticos para password (hashed) e datas
-  - Relacionamentos e métodos de acesso aos dados
-  - Integração com Laravel Fortify para autenticação de dois fatores
+    - Atributos fillable: name, email, password, role, cpf
+    - Casts automáticos para password (hashed) e datas
+    - Relacionamentos e métodos de acesso aos dados
+    - Integração com Laravel Fortify para autenticação de dois fatores
 
 ### View (Visão)
 
@@ -112,9 +96,9 @@ Os componentes React são renderizados como views através do Inertia.js, permit
 Os Controllers gerenciam as requisições HTTP e coordenam a comunicação entre Model e View. Localizados em `app/Http/Controllers/`:
 
 - **UserController.php**: Controla as operações CRUD de usuários
-  - `store()`: Cria novos usuários
-  - `update()`: Atualiza usuários existentes
-  - `destroy()`: Remove usuários
+    - `store()`: Cria novos usuários
+    - `update()`: Atualiza usuários existentes
+    - `destroy()`: Remove usuários
 - **Settings/ProfileController.php**: Gerencia o perfil do usuário autenticado
 - **Settings/PasswordController.php**: Gerencia alteração de senha
 - **Settings/TwoFactorAuthenticationController.php**: Gerencia autenticação de dois fatores
@@ -250,6 +234,7 @@ sail up
 ```
 
 O comando `composer dev` configurado no `composer.json` utiliza `concurrently` para executar três processos simultaneamente:
+
 - Servidor Laravel (porta 80)
 - Queue worker do Laravel
 - Servidor de desenvolvimento Vite (hot-reload)
@@ -322,16 +307,19 @@ A lógica de permissões está implementada tanto no frontend (`resources/js/lib
 O sistema possui três usuários de exemplo pré-configurados para testes:
 
 ### Administrador
+
 - **CPF**: 11111111111
 - **Senha**: senha_admin
 - **Permissões**: Acesso completo ao sistema
 
 ### Moderador
+
 - **CPF**: 22222222222
 - **Senha**: senha_mod
 - **Permissões**: Pode visualizar e editar usuários, mas não pode criar ou excluir
 
 ### Leitor
+
 - **CPF**: 33333333333
 - **Senha**: senha_leitor
 - **Permissões**: Apenas visualização de usuários
@@ -393,7 +381,7 @@ testeDevFullStack/
 Para desenvolvimento ativo com hot-reload:
 
 ```bash
-composer run dev 
+composer run dev
 ```
 
 Ou usando Docker Sail:
