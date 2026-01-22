@@ -412,6 +412,7 @@ O comando `composer dev` já inicia todos os serviços necessários automaticame
 - As senhas são hasheadas automaticamente pelo Laravel usando bcrypt
 - O sistema de notificações toast aparece no canto inferior direito da tela
 - Componentes seguem padrões de acessibilidade (ARIA labels, navegação por teclado)
+- O arquivo .env está incluído neste 
 - O projeto utiliza TypeScript para type safety no frontend
 - Validações são implementadas usando Concerns para reutilização de código
 
