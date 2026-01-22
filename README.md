@@ -38,12 +38,17 @@ Sistema de gerenciamento de usuários desenvolvido com Laravel e React, utilizan
    npm install
    ```
 
-5. Execute as migrações:
+4. Execute as migrações:
    ```bash
    php artisan migrate
    ```
 
-6. Compile os assets do frontend:
+   5. Semeie a tabela Users:
+   ```bash
+   php artisan db:seed --class=UserSeeder
+   ```
+
+6. Compile os assets do frontend e executar os servidores:
    ```bash
    composer run dev
    ```
