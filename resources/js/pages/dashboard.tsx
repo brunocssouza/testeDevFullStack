@@ -1,10 +1,10 @@
 /* eslint-disable import/order */
 import { DeleteUserModal } from '@/components/delete-user-modal';
+import { ToastContainer } from '@/components/ui/toast';
 import { UserList } from '@/components/user-list';
 import { UserModal } from '@/components/user-modal';
 import { UserRoleCard } from '@/components/user-role-card';
 import { UserSearchBar } from '@/components/user-search-bar';
-import { ToastContainer } from '@/components/ui/toast';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
@@ -45,9 +45,7 @@ export default function Dashboard({ users }: DashboardProps) {
         } else {
             setUsersFiltered(
                 users.filter((user) =>
-                    user.name
-                        .toLowerCase()
-                        .includes(searchValue.toLowerCase()),
+                    user.name.toLowerCase().includes(searchValue.toLowerCase()),
                 ),
             );
         }
@@ -128,7 +126,11 @@ export default function Dashboard({ users }: DashboardProps) {
                     user={userToDelete}
                     isSame={userToDelete?.id == auth.user.id}
                     onSuccess={handleDeleteSuccess}
-                    isLastAdmin={users.filter((user) => user.role == "Administrador").length == 1 && userToDelete?.role == "Administrador"} // Faz com que sempre haja ao menos um Administrador, para que não se perca acesso as principais funcionalidades da plataforma.
+                    isLastAdmin={
+                        users.filter((user) => user.role == 'Administrador')
+                            .length == 1 &&
+                        userToDelete?.role == 'Administrador'
+                    } // Faz com que sempre haja ao menos um Administrador, para que não se perca acesso as principais funcionalidades da plataforma.
                 />
 
                 <ToastContainer toasts={toasts} onClose={removeToast} />

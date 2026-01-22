@@ -72,6 +72,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                     {item.title}
                                 </Link>
                             </Button>
+                        
                         ))}
                     </nav>
                 </aside>

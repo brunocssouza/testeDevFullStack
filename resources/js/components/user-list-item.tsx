@@ -18,7 +18,7 @@ export function UserListItem({
 }: UserListItemProps) {
     return (
         <li className="border-b bg-slate-100 hover:bg-gray-50">
-            <div className="inline-flex w-full">
+            <div className="py-4 lg:inline-flex w-full">
                 <div className="flex flex-1/12 justify-center rounded-l-lg p-4">
                     <div className="flex size-14 items-center justify-center rounded-full bg-orange-500">
                         <svg

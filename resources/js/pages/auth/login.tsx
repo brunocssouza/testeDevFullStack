@@ -1,14 +1,10 @@
-import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { store } from '@/routes/login';
-import { request } from '@/routes/password';
+import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
@@ -16,9 +12,7 @@ type Props = {
     canRegister: boolean;
 };
 
-export default function Login({
-    status,
-}: Props) {
+export default function Login({ status }: Props) {
     return (
         <AuthLayout
             title="FAÇA O SEU LOGIN"
@@ -43,10 +37,10 @@ export default function Login({
                                     autoFocus
                                     tabIndex={1}
                                     placeholder="CPF"
-                                    maxLength={"11"}
+                                    maxLength={'11'}
                                     theme={1}
                                 />
-                                <InputError message={errors.cpf} />
+                                
                             </div>
 
                             <div className="grid gap-2">
@@ -60,12 +54,12 @@ export default function Login({
                                     placeholder="Senha"
                                     theme={1}
                                 />
-                                <InputError message={errors.password} />
+                                <InputError message={errors.cpf && 'CPF inválido'} />
                             </div>
 
                             <Button
                                 type="submit"
-                                className="mt-4 py-6 bg-linear-to-r from-neutral-700 from-0% via-neutral-800 via-25% to-neutral-900 to-100% rounded-4xl tracking-widest text-lg"
+                                className="mt-4 rounded-4xl bg-linear-to-r from-neutral-700 from-0% via-neutral-800 via-25% to-neutral-900 to-100% py-6 text-lg tracking-widest transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
@@ -75,7 +69,12 @@ export default function Login({
                             </Button>
                         </div>
 
-                        <a href="#" className="hover:underline text-white text-center mb-4">Esqueci meu login ou senha</a>
+                        <a
+                            href="#"
+                            className="mb-4 text-center text-white hover:underline"
+                        >
+                            Esqueci meu login ou senha
+                        </a>
                     </>
                 )}
             </Form>
