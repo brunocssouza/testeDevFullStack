@@ -23,7 +23,7 @@ class UserController extends Controller
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
-            'cpf' => ['required', 'string', 'min:14'],
+            'cpf' => ['required', 'string', 'min:11', 'max:11'],
             'role' => ['required', 'string', 'in:Administrador,Moderador,Leitor'],
         ])->validate();
 
@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $rules = [
             ...$this->profileRules($user->id),
-            'cpf' => ['required', 'string', 'max:14'],
+            'cpf' => ['required', 'string', 'min:11', 'max:11'],
             'role' => ['required', 'string', 'in:Administrador,Moderador,Leitor'],
         ];
 

@@ -6,7 +6,11 @@ import type { AuthLayoutProps } from '@/types';
 
 export default function AuthSimpleLayout({ children, title }: AuthLayoutProps) {
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-linear-to-r from-zinc-800 from-0% via-neutral-500 via-50% to-zinc-800 to-100% p-6 md:p-10">
+<div
+  className="flex min-h-svh flex-col items-center justify-center gap-6 bg-cover bg-center p-6 md:p-10"
+  style={{ backgroundImage: "url('/bg.png')" }}
+>
+
             <header className="absolute top-0 left-0 z-50 w-full">
                 <nav className="flex items-center justify-between px-6 py-4">
                     <Link href={home()} className="flex items-center gap-2">

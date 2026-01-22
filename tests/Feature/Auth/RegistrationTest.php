@@ -7,13 +7,21 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    $response = $this->post(route('register.store'), [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+    $response = $this->post('/register', [
+        'name'                  => 'Novo Usuário Teste',
+        'email'                 => 'novo@exemplo.com',
+        'cpf'                   => '98765432100',
+        'role'                  => 'Leitor',
+        'password'              => 'senha123',
+        'password_confirmation' => 'senha123',
     ]);
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $this->assertAuthenticated();                        // deve passar agora
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('users', [
+        'email' => 'novo@exemplo.com',
+        'cpf'   => '98765432100',
+        'role'  => 'Leitor',
+    ]);
 });

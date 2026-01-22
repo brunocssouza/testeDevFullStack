@@ -4,14 +4,19 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,6 +36,8 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+        $this->configureAuthentication();
+        $this->configureUsername();
     }
 
     /**
@@ -67,9 +74,7 @@ class FortifyServiceProvider extends ServiceProvider
         ]));
 
         Fortify::registerView(fn () => Inertia::render('auth/register'));
-
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/two-factor-challenge'));
-
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/confirm-password'));
     }
 
@@ -87,5 +92,36 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
+    }
+
+    /**
+     * Configure authentication using CPF.
+     */
+    private function configureAuthentication(): void
+    {
+
+        
+        Fortify::authenticateUsing(function (Request $request) {
+            \Log::info('authenticateUsing CALLED', $request->only('cpf', 'password'));
+            // or dd('authenticateUsing reached') if you want to stop execution
+
+            $user = User::where('cpf', $request->cpf)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                \Log::info('User authenticated via cpf', ['id' => $user->id]);
+
+                return $user;
+            }
+
+            return null;
+        });
+    }
+
+    /**
+     * Configure username to use CPF.
+     */
+    private function configureUsername(): void
+    {
+        Fortify::username(fn () => 'cpf');
     }
 }
