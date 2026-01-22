@@ -18,6 +18,7 @@ interface UserModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     mode: 'create' | 'edit';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user?: any;
     onSuccess?: (isEdit: boolean) => void;
     currentUserRole: string | undefined;
