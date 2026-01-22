@@ -3,7 +3,12 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "./button";
 import { DropdownItem } from "./dropdown-item";
 
-export default function DropdownMenuAlternative() {
+interface DropdownMenuAlternativeProps {
+    onEdit?: () => void;
+    onRemove?: () => void;
+}
+
+export default function DropdownMenuAlternative({ onEdit, onRemove }: DropdownMenuAlternativeProps) {
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -13,8 +18,8 @@ export default function DropdownMenuAlternative() {
                 </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white shadow-md px-2 space-y-2 py-2 animate-fade-in">
-                <DropdownItem className="">Editar</DropdownItem>
-                <DropdownItem>Remover</DropdownItem>
+                <DropdownItem onClick={onEdit}>Editar</DropdownItem>
+                <DropdownItem onClick={onRemove}>Remover</DropdownItem>
             </DropdownMenu.Content>
         </DropdownMenu.Root>
     );
