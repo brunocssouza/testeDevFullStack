@@ -18,7 +18,6 @@ type Props = {
 
 export default function Login({
     status,
-    canResetPassword
 }: Props) {
     return (
         <AuthLayout
@@ -44,22 +43,13 @@ export default function Login({
                                     autoFocus
                                     tabIndex={1}
                                     placeholder="CPF"
+                                    maxLength={"11"}
+                                    theme={1}
                                 />
                                 <InputError message={errors.cpf} />
                             </div>
 
                             <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
-                                </div>
                                 <Input
                                     id="password"
                                     type="password"
@@ -68,17 +58,9 @@ export default function Login({
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Senha"
+                                    theme={1}
                                 />
                                 <InputError message={errors.password} />
-                            </div>
-
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Lembrar-me</Label>
                             </div>
 
                             <Button

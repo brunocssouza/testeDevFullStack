@@ -5,12 +5,16 @@ interface UserListItemProps {
     user: User;
     onEdit: (user: User) => void;
     onRemove: (user: User) => void;
+    canEdit?: boolean;
+    canDelete?: boolean;
 }
 
 export function UserListItem({
     user,
     onEdit,
     onRemove,
+    canEdit = true,
+    canDelete = true,
 }: UserListItemProps) {
     return (
         <li className="border-b bg-slate-100 hover:bg-gray-50">
@@ -37,12 +41,18 @@ export function UserListItem({
                     <p className="text-sm">{user.email}</p>
                     <p className="text-xl font-medium">{user.name}</p>
                 </div>
-                <div className="flex flex-1/12 items-center justify-center px-4">
-                    <DropdownMenuAlternative
-                        onEdit={() => onEdit(user)}
-                        onRemove={() => onRemove(user)}
-                    />
-                </div>
+                {(canEdit || canDelete) && (
+                    <div className="flex flex-1/12 items-center justify-center px-4">
+                        <DropdownMenuAlternative
+                            onEdit={canEdit ? () => onEdit(user) : undefined}
+                            onRemove={
+                                canDelete ? () => 
+                                    onRemove(user)
+                                : undefined
+                            }
+                        />
+                    </div>
+                )}
             </div>
         </li>
     );

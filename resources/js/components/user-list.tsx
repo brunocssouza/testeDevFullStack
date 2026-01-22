@@ -1,3 +1,4 @@
+import { canDeleteUser, canEditUser } from '@/lib/permissions';
 import type { User } from '@/types/user';
 import { UserListItem } from './user-list-item';
 
@@ -5,9 +6,17 @@ interface UserListProps {
     users: User[];
     onEdit: (user: User) => void;
     onRemove: (user: User) => void;
+    currentUserId?: number;
+    currentUserRole?: string;
 }
 
-export function UserList({ users, onEdit, onRemove }: UserListProps) {
+export function UserList({
+    users,
+    onEdit,
+    onRemove,
+    currentUserId,
+    currentUserRole,
+}: UserListProps) {
     return (
         <div className="overflow-auto rounded-lg bg-white dark:bg-slate-900">
             <h1 className="mb-4 text-2xl font-bold">Usuários</h1>
@@ -16,15 +25,25 @@ export function UserList({ users, onEdit, onRemove }: UserListProps) {
                     Nenhum usuário encontrado
                 </p>
             ) : (
-                <ul className='space-y-2'>
-                    {users.map((user) => (
-                        <UserListItem
-                            key={user.id}
-                            user={user}
-                            onEdit={onEdit}
-                            onRemove={onRemove}
-                        />
-                    ))}
+                <ul className="space-y-2">
+                    {users.map((user) => {
+                        const canEdit = canEditUser(
+                            currentUserRole,
+                            currentUserId,
+                        );
+                        const canDelete = canDeleteUser(currentUserRole);
+
+                        return (
+                            <UserListItem
+                                key={user.id}
+                                user={user}
+                                onEdit={onEdit}
+                                onRemove={onRemove}
+                                canEdit={canEdit}
+                                canDelete={canDelete}
+                            />
+                        );
+                    })}
                 </ul>
             )}
         </div>

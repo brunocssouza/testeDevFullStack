@@ -18,8 +18,12 @@ export default function DropdownMenuAlternative({ onEdit, onRemove }: DropdownMe
                 </Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="bg-white shadow-md px-2 space-y-2 py-2 animate-fade-in">
-                <DropdownItem onClick={onEdit}>Editar</DropdownItem>
-                <DropdownItem onClick={onRemove}>Remover</DropdownItem>
+                {onEdit && (
+                    <DropdownItem onClick={onEdit}>Editar</DropdownItem>
+                )}
+                {onRemove && (
+                    <DropdownItem onClick={onRemove}>Remover</DropdownItem>
+                )}
             </DropdownMenu.Content>
         </DropdownMenu.Root>
     );

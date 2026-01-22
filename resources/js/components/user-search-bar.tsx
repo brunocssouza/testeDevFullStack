@@ -1,13 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { UserPlus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { canCreateUser } from '@/lib/permissions';
 
 interface UserSearchBarProps {
     searchValue: string;
     onSearchChange: (value: string) => void;
     userCount: number;
     onCreateClick: () => void;
+    currentUserRole?: string;
 }
 
 export function UserSearchBar({
@@ -15,7 +17,11 @@ export function UserSearchBar({
     onSearchChange,
     userCount,
     onCreateClick,
+    currentUserRole,
 }: UserSearchBarProps) {
+
+ const canCreate = canCreateUser(currentUserRole)
+
     return (
         <div className="mb-4 inline-flex w-full rounded border px-4">
             <div className="my-4 flex flex-2/6 flex-col">
@@ -40,15 +46,17 @@ export function UserSearchBar({
                 </p>
                 <p className="text-lg font-bold">{userCount}</p>
             </div>
-            <div className="flex flex-2/6 items-center justify-end">
-                <Button
-                    onClick={onCreateClick}
-                    className="bg-green-600 transition-colors hover:bg-green-700"
-                >
-                    <UserPlus />
-                    Cadastrar novo
-                </Button>
-            </div>
+            {canCreate && (
+                <div className="flex flex-2/6 items-center justify-end">
+                    <Button
+                        onClick={onCreateClick}
+                        className="bg-green-600 transition-colors hover:bg-green-700"
+                    >
+                        <UserPlus />
+                        Cadastrar novo
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }

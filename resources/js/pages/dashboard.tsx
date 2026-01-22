@@ -1,8 +1,11 @@
 /* eslint-disable import/order */
+import { DeleteUserModal } from '@/components/delete-user-modal';
 import { UserList } from '@/components/user-list';
 import { UserModal } from '@/components/user-modal';
 import { UserRoleCard } from '@/components/user-role-card';
 import { UserSearchBar } from '@/components/user-search-bar';
+import { ToastContainer } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, SharedData } from '@/types';
@@ -23,11 +26,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard({ users }: DashboardProps) {
     const { auth } = usePage<SharedData>().props;
+    const { toasts, showToast, removeToast } = useToast();
 
     const [usersFiltered, setUsersFiltered] = useState(users);
     const [searchValue, setSearchValue] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState<User | null>(null);
 
     useEffect(() => {
         setUsersFiltered(users);
@@ -58,8 +64,12 @@ export default function Dashboard({ users }: DashboardProps) {
     };
 
     const handleRemove = (user: User) => {
-        // TODO: Implementar remoção
-        console.log('Remove user:', user);
+        setUserToDelete(user);
+        setDeleteModalOpen(true);
+    };
+
+    const handleDeleteSuccess = () => {
+        showToast('Usuário removido com sucesso!', 'success');
     };
 
     const handleModalClose = (open: boolean) => {
@@ -80,12 +90,15 @@ export default function Dashboard({ users }: DashboardProps) {
                     onSearchChange={setSearchValue}
                     userCount={usersFiltered.length}
                     onCreateClick={handleCreateClick}
+                    currentUserRole={auth.user.role}
                 />
 
                 <UserList
                     users={usersFiltered}
                     onEdit={handleEdit}
                     onRemove={handleRemove}
+                    currentUserRole={auth.user.role}
+                    currentUserId={auth.user.id}
                 />
 
                 <UserModal
@@ -93,7 +106,32 @@ export default function Dashboard({ users }: DashboardProps) {
                     open={modalOpen}
                     onOpenChange={handleModalClose}
                     user={editingUser}
+                    currentUserRole={auth.user.role}
+                    onSuccess={(isEdit) => {
+                        showToast(
+                            isEdit
+                                ? 'Usuário atualizado com sucesso!'
+                                : 'Usuário criado com sucesso!',
+                            'success',
+                        );
+                    }}
                 />
+
+                <DeleteUserModal
+                    open={deleteModalOpen}
+                    onOpenChange={(open) => {
+                        setDeleteModalOpen(open);
+                        if (!open) {
+                            setUserToDelete(null);
+                        }
+                    }}
+                    user={userToDelete}
+                    isSame={userToDelete?.id == auth.user.id}
+                    onSuccess={handleDeleteSuccess}
+                    isLastAdmin={users.filter((user) => user.role == "Administrador").length == 1 && userToDelete?.role == "Administrador"} // Faz com que sempre haja ao menos um Administrador, para que não se perca acesso as principais funcionalidades da plataforma.
+                />
+
+                <ToastContainer toasts={toasts} onClose={removeToast} />
             </div>
         </AppLayout>
     );

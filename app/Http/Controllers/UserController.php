@@ -74,4 +74,14 @@ class UserController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    /**
+     * Remove the specified user.
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('dashboard');
+    }
 }

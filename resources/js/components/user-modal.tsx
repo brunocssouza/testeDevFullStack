@@ -1,3 +1,5 @@
+import { Form, router } from '@inertiajs/react';
+import { PatternFormat } from 'react-number-format';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,14 +13,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/users';
-import { Form, router } from '@inertiajs/react';
-import { PatternFormat } from 'react-number-format';
 
 interface UserModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     mode: 'create' | 'edit';
     user?: any;
+    onSuccess?: (isEdit: boolean) => void;
+    currentUserRole: string | undefined;
 }
 
 export function UserModal({
@@ -26,8 +28,11 @@ export function UserModal({
     onOpenChange,
     mode = 'create',
     user,
+    onSuccess,
+    currentUserRole,
 }: UserModalProps) {
     const isEdit = mode === 'edit';
+    const isSuperior = user?.role == "Administrador" && currentUserRole != "Administrador"
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -68,6 +73,7 @@ export function UserModal({
                     onSuccess={() => {
                         onOpenChange(false);
                         router.reload({ only: ['users'] });
+                        onSuccess?.(isEdit);
                     }}
                 >
                     {({ processing, errors }) => (
@@ -84,6 +90,7 @@ export function UserModal({
                                         name="name"
                                         placeholder="Nome completo"
                                         defaultValue={isEdit ? user?.name : ''}
+                                        disabled={isSuperior}
                                         className="text-black"
                                     />
                                     <InputError message={errors.name} />
@@ -99,6 +106,7 @@ export function UserModal({
                                         name="email"
                                         placeholder="email@example.com"
                                         defaultValue={isEdit ? user?.email : ''}
+                                        disabled={isSuperior}
                                         className="text-black"
                                     />
                                     <InputError message={errors.email} />
@@ -116,6 +124,7 @@ export function UserModal({
                                         name="cpf"
                                         placeholder="000.000.000-00"
                                         defaultValue={isEdit ? user?.cpf : ''}
+                                        disabled={isSuperior}
                                         className="md:text-md tracking flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-6 text-base font-normal text-black shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:text-foreground placeholder:text-white focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40"
                                     />
                                     <InputError message={errors.cpf} />
@@ -128,6 +137,7 @@ export function UserModal({
                                     <select
                                         name="role"
                                         defaultValue={isEdit ? user?.role : ''}
+                                        disabled={isSuperior}
                                         className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base text-black shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         <option value="Administrador">
@@ -190,6 +200,7 @@ export function UserModal({
                                                 name="password"
                                                 placeholder="Deixe em branco para manter a senha atual"
                                                 className="text-black"
+                                                disabled={isSuperior}
                                             />
                                             <InputError message={errors.password} />
                                         </div>
@@ -205,6 +216,7 @@ export function UserModal({
                                                 name="password_confirmation"
                                                 placeholder="Confirmar nova senha"
                                                 className="text-black"
+                                                disabled={isSuperior}
                                             />
                                             <InputError
                                                 message={
@@ -218,7 +230,7 @@ export function UserModal({
                                 <Button
                                     type="submit"
                                     className="mt-2 w-full bg-green-600 hover:bg-green-700"
-                                    disabled={processing}
+                                    disabled={processing || isSuperior}
                                 >
                                     {processing && <Spinner />}
                                     {isEdit ? 'Atualizar' : 'Criar conta'}
