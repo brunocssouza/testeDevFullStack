@@ -411,8 +411,7 @@ O comando `composer dev` já inicia todos os serviços necessários automaticame
 - O banco de dados SQLite é criado automaticamente na primeira execução das migrações
 - As senhas são hasheadas automaticamente pelo Laravel usando bcrypt
 - O sistema de notificações toast aparece no canto inferior direito da tela
-- Componentes seguem padrões de acessibilidade (ARIA labels, navegação por teclado)
-- O arquivo .env está incluído neste 
+- Componentes seguem padrões de acessibilidade (ARIA labels, navegação por teclado) 
 - O projeto utiliza TypeScript para type safety no frontend
 - Validações são implementadas usando Concerns para reutilização de código
 
